@@ -54,15 +54,26 @@ const posts = [
         "likes": 95,
         "created": "2021-03-05"
     }
-];
+]
+
+
+const likedPosts = [5, 3]
 
 const containerEl = document.getElementById('container')
 containerEl.innerHTML = ''
 
-for (let i = 0; i < posts.length; i++ ) {
+for (let i = 0; i < posts.length; i++) {
     const post = posts[i]
     // console.log(post)
-    const {author, content,created, media, likes } = post
+    const {author, content,created, media, likes, id } = post
+
+    console.log(likedPosts.includes(id))
+    let likeClassName =''
+
+    if(isPostLiked(post.id)) {
+        likeClassName = 'like-button--liked'
+
+    }
 
     const html = `
     <div class="post">
@@ -84,13 +95,13 @@ for (let i = 0; i < posts.length; i++ ) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
+                        <a class="like-button ${ likeClassName } js-like-button" href="#" data-postid="${id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
+                        Piace a <b id="like-counter-${id}" class="js-likes-counter">${likes}</b> persone
                     </div>
                 </div> 
             </div>            
@@ -103,52 +114,45 @@ for (let i = 0; i < posts.length; i++ ) {
     containerEl.innerHTML += html
 }
 
+const likeButtons = [...document.querySelectorAll('.js-like-button')]
 
+// console.log(likeButtons)
+likeButtons.forEach((el) => {
+    // console.log(el)
+    el.addEventListener('click', function () {
+        // console.log(this.dataset.postid)
 
+        const postId = parseInt(this.dataset.postid)
+        console.log(postId)
 
+        const counterLikeId = `like-counter-${postId}`
+        console.log(counterLikeId)
+        const counterEl = document.getElementById(counterLikeId)
+        // console.log(counterEl)
+        const likes = parseInt(counterEl.innerHTML)
+        console.log(likes)
 
+        // controlliamo se l'utente ha messo like 
 
+        if(!isPostLiked(postId)) {
+            console.log("post senza like dell'utente")
 
+            this.classList.add('like-button--liked')
 
+            counterEl.innerHTML = likes + 1
 
+            likedPosts.push(postId )
+        } else {
+            // console.log("post con like dell'utente")
 
+            this.classList.remove('like-button--liked')
+            counterEl.innerHTML = likes - 1
 
+        }
 
+    })
+})
 
-
-
-
-
-
-
-// RECUPERO CONTAINER
-// CREO ARRAY VUOTO PER LIKES
-
-// CICLO FOREACH POSTS
-    // CREO VAR IMAGE  = ELEMENT.AUTHOR.IMAGE
-    // AGGIUNGI GUARDONE AL BOTTONE
-    // INCREMENTARE NUM LIKES
-            // idpost = tjis.dataset.postid
-            // const postElement = queryselector('#post-' + idpost + '.js-like-counter')
-            // postElement.innerhtml++
-
-        // CAMBIARE COLORE DEL TESTO BOTTONE
-    
-    // CREO VAR BTN-LIKEHELL = TAMPLATE LIT DEL PULSANTE
-    // SE !IMAGE
-        // INSERICO IMMAGINE PROVVISORIA
-
-    // CONTAINER INNERHTML TEMPLATE LIT DEL POST 
-
-
-
-
-
-
-
-
-    // const likeButton =
-    //            <a class="like-button  js-like-button" href="#" data-postid="1">
-    //               <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-    //               <span class="like-button__label">Mi Piace</span>
-    //           </a>
+function isPostLiked (id) {
+    return likedPosts.includes(id)
+}
