@@ -59,26 +59,27 @@ const posts = [
 const containerEl = document.getElementById('container')
 containerEl.innerHTML = ''
 
-for (let i = 0; < posts.length; i++ ) {
+for (let i = 0; i < posts.length; i++ ) {
     const post = posts[i]
-    console.log(post)
+    // console.log(post)
+    const {author, content,created, media, likes } = post
 
-    const html =
+    const html = `
     <div class="post">
             <div class="post__header">
                 <div class="post-meta">                    
                     <div class="post-meta__icon">
-                        <img class="profile-pic" src="${post.author.image}" alt="${post.author.name}">                    
+                        <img class="profile-pic" src="${author.image}" alt="${author.name}">                    
                     </div>
                     <div class="post-meta__data">
-                        <div class="post-meta__author">${post.author.name}</div>
-                        <div class="post-meta__time">${post.created}</div>
+                        <div class="post-meta__author">${author.name}</div>
+                        <div class="post-meta__time">${created}</div>
                     </div>                    
                 </div>
             </div>
-            <div class="post__text">${post.content}</div>
+            <div class="post__text">${content}</div>
             <div class="post__image">
-                <img src="${post.media}" alt="">
+                <img src="${media}" alt="">
             </div>
             <div class="post__footer">
                 <div class="likes js-likes">
@@ -89,12 +90,13 @@ for (let i = 0; < posts.length; i++ ) {
                         </a>
                     </div>
                     <div class="likes__counter">
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${post.likes}</b> persone
+                        Piace a <b id="like-counter-1" class="js-likes-counter">${likes}</b> persone
                     </div>
                 </div> 
             </div>            
         </div>
     </div>
+    `
 
 
 
@@ -131,8 +133,6 @@ for (let i = 0; < posts.length; i++ ) {
             // postElement.innerhtml++
 
         // CAMBIARE COLORE DEL TESTO BOTTONE
-        this.classlist.add('active')
-        this.innerhtml = 'you like this'
     
     // CREO VAR BTN-LIKEHELL = TAMPLATE LIT DEL PULSANTE
     // SE !IMAGE
