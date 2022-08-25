@@ -57,7 +57,7 @@ const posts = [
 ]
 
 
-const likedPosts = [5, 3]
+const likedPosts = [5, 2, 3]
 
 const containerEl = document.getElementById('container')
 containerEl.innerHTML = ''
@@ -65,7 +65,7 @@ containerEl.innerHTML = ''
 for (let i = 0; i < posts.length; i++) {
     const post = posts[i]
     // console.log(post)
-    const {author, content,created, media, likes, id } = post
+    const {author, content, created, media, likes, id } = post
 
     console.log(likedPosts.includes(id))
     let likeClassName =''
@@ -126,7 +126,7 @@ likeButtons.forEach((el) => {
         console.log(postId)
 
         const counterLikeId = `like-counter-${postId}`
-        console.log(counterLikeId)
+        // console.log(counterLikeId)
         const counterEl = document.getElementById(counterLikeId)
         // console.log(counterEl)
         const likes = parseInt(counterEl.innerHTML)
@@ -134,8 +134,10 @@ likeButtons.forEach((el) => {
 
         // controlliamo se l'utente ha messo like 
 
+        console.log(likedPosts)
+
         if(!isPostLiked(postId)) {
-            console.log("post senza like dell'utente")
+            // console.log("post senza like dell'utente")
 
             this.classList.add('like-button--liked')
 
@@ -148,11 +150,13 @@ likeButtons.forEach((el) => {
             this.classList.remove('like-button--liked')
             counterEl.innerHTML = likes - 1
 
+            const index = likedPosts.indexOf(postId)
+            // console.log(likedPosts, postId, index)
         }
-
+        console.log(likedPosts)
     })
 })
 
-function isPostLiked (id) {
+function isPostLiked(id) {
     return likedPosts.includes(id)
 }
